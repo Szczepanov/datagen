@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <title>Data generator</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/generator.css' %}">
+    </head>
+    <body>
+    <div class="page-header"><h1>Data generator</h1></div>
+
+    <nav id="gdMainTabs">
+        <ul>
+            <li id="gdMainTab1" class="gdSelected">Generate</li>
+            <li id="gdMainTab2">mainTab2</li>
+            <li id="gdMainTab3">mainTab3</li>
+        </ul>
+    </nav>
+    <div class
+             {% block content %}
+            {% endblock content %}
+    </body>
+</html>

@@ -5,17 +5,11 @@ from django.db import models
 
 
 class DataSet(models.Model):
-    name = models.TextField()
-    country = models.TextField()
-    columnName = models.TextField()
-    dataType = models.TextField()
-    rowsNumber = models.TextField()
-
-    def __init__(self):
-        self.name = ''
-        self.country = 'All'
-        self.columnName = ''
-        self.rowsNumber = '1'
+    name = models.TextField(default='name1')
+    country = models.TextField(default='All')
+    column_name = models.TextField(default='name')
+    data_type = models.TextField(default='names')
+    rows_number = models.IntegerField(default=1)
 
     def generate(self):
         self.save()
