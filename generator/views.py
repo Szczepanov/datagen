@@ -16,3 +16,7 @@ def generate_new(request):
     else:
         form = DataSetForm()
     return render(request, 'generator/generate_new.html', {'form': form})
+
+
+def set_variables(request):
+    return render(request, 'generator/set_variables.html', {})
