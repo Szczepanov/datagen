@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 class Country(models.Model):
-    name = models.TextField(default='All')
+    name = models.TextField(primary_key=True, default='All', )
 
     def __str__(self):
         return self.name

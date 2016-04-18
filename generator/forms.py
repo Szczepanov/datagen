@@ -13,4 +13,4 @@ class DataSetForm(forms.ModelForm):
 class CountryForm(forms.ModelForm):
     class Meta:
         model = Country
-        fields = 'name'
+        fields = '__all__'

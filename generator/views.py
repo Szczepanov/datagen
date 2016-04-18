@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .forms import DataSetForm
+from .forms import DataSetForm, CountryForm
 
 
 def generate(request):
@@ -19,4 +19,11 @@ def generate_new(request):
 
 
 def set_variables(request):
-    return render(request, 'generator/set_variables.html', {})
+    if request.method == "POST":
+        form = CountryForm(request.POST)
+        if form.is_valid():
+            countryform = form.save(commit=False)
+            countryform.save()
+    else:
+        form = CountryForm()
+    return render(request, 'generator/set_variables.html', {'form': form})
