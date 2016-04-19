@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import DataSet, Country
+from .models import DataSet
 
 
 class DataSetForm(forms.ModelForm):
@@ -10,7 +10,7 @@ class DataSetForm(forms.ModelForm):
         fields = '__all__'
 
 
-class CountryForm(forms.ModelForm):
-    class Meta:
-        model = Country
-        fields = '__all__'
+# class CountryForm(forms.ModelForm):
+#     class Meta:
+#         model = Country
+#         fields = '__all__'
