@@ -9,7 +9,7 @@ def generate(request):
 
 def generate_new(request):
     if request.method == "POST":
-        form = DataSetForm(request.POST)
+        form = DataSetForm(request.POST or None)
         if form.is_valid():
             dataset = form.save(commit=False)
             dataset.save()
@@ -18,12 +18,16 @@ def generate_new(request):
     return render(request, 'generator/generate_new.html', {'form': form})
 
 
-# def set_variables(request):
-#     if request.method == "POST":
-#         form = CountryForm(request.POST)
-#         if form.is_valid():
-#             countryform = form.save(commit=False)
-#             countryform.save()
-#     else:
-#         form = CountryForm()
-#     return render(request, 'generator/set_variables.html', {'form': form})
+def display_data(request, data, **kwargs):
+    return render(request, 'example/posted-data.html', dict(data=data, **kwargs), )
+
+
+def formset(request, formset_class, template):
+    if request.method == 'POST':
+        formset = formset_class(request.POST or None)
+        if formset.is_valid():
+            data = formset.cleaned_data
+            # return display_data(request, data)
+    else:
+        formset = formset_class()
+    return render(request, template, {'formset': formset},)

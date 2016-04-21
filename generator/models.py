@@ -45,7 +45,14 @@ class DataType(models.Model):
 
     def __str__(self):
         return self.datatype
-
+#TODO
+#add DataSetRow and modify DataSet to have name and key to DataSetRow
+    
+ # class DataSetRow(models.Model):
+ #     id = models.AutoField(primary_key=True)
+ #     column_name = models.CharField(max_length=200, default='ColumnName')
+ #     data_type = models.ForeignKey('DataType', on_delete=models.SET_NULL, null=True)
+ #     options = models.CharField(max_length=200, default='options')
 
 class DataSet(models.Model):
     id = models.AutoField(primary_key=True)
@@ -58,3 +65,4 @@ class DataSet(models.Model):
 
     def __str__(self):
         return self.name
+

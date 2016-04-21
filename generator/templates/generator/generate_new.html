@@ -1,9 +1,62 @@
-{% extends 'generator/base.html' %}
+{% extends 'base.html' %}
+
+{% block title %}Basic Formset (Table layout){% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript">
+   $(function() {
+        $('#id_contact_info_table tbody tr').formset({
+            extraClasses: ['row1', 'row2', 'row3']
+        })
+    })
+</script>
+<style type="text/css">
+    .add-row {
+        padding-left:18px;
+        background:url(/static/images/add.png) no-repeat left center;
+    }
+    .delete-row {
+        float:right;
+        display:block;
+        margin:5px 0 0 5px;
+        text-indent:-6000px;
+        background:url(/static/images/delete.png) no-repeat left center;
+        width:16px;
+        height:16px;
+    }
+    tr.row1 td { background-color: #f9f9f9; }
+    tr.row2 td { background-color: #f3f3f3; }
+    tr.row3 td { background-color: #ededed; }
+</style>
+{% endblock %}
 
 {% block content %}
-    <h1>New Dataset</h1>
+<div>
     <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
+         <table id="id_contact_info_table" border="0" cellpadding="0" cellspacing="5">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">column_name</th>
+                        <th scope="col">data_type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in formset.forms %}
+                    <tr id="{{ form.prefix }}-row">
+                        <td style="text-align:center;">{{ form.name }}</td>
+                        <td>{{ form.column_name }}</td>
+                        <td>{{ form.data_type }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p>
+                {{ formset.management_form }}
+                <input type="submit" value="Submit" class="save btn btn-default"/>
+            </p>
     </form>
+</div>
+        <!--<button type="submit" class="save btn btn-default">Save</button>-->
+
 {% endblock %}
