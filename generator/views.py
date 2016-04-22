@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from generator.models import Table, Column
 from .forms import ColumnForm, TableForm, ColumnFormset
 
 
@@ -34,12 +35,16 @@ def formset(request, formset_class, template):
 
 
 def multiple_formsets(request, template):
+    table = Table()
+    column = Column()
     if request.method == 'POST':
-        table_form, column_formset = TableForm(request.POST, prefix='table_form'), ColumnFormset(request.POST,
-                                                                                                 prefix='column_form')
+        table_form, column_formset = TableForm(request.POST, prefix='=table_form', instance=table), ColumnFormset(
+            request.POST,
+            prefix='column_formset')
         if table_form.is_valid() and column_formset.is_valid():
             data = [table_form.cleaned_data, column_formset.cleaned_data]
             return display_data(request, data, multiple_formsets=True)
     else:
-        table_form, column_formset = TableForm(prefix='table_form'), ColumnFormset(prefix='column_form')
-    return render(request, template, {'table_form': table_form, 'column_form': column_formset})
+        table_form, column_formset = TableForm(prefix='table_form', instance=table), ColumnFormset(
+            prefix='column_formset',)
+    return render(request, template, {'table_form': table_form, 'column_formset': column_formset})

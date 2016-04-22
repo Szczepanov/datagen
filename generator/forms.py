@@ -14,7 +14,6 @@ class ColumnForm(forms.ModelForm):
     class Meta:
         model = Column
         fields = ('column_name', 'datatype', 'options')
-        exclude =('table')
         # fields = '__all__'
 
 

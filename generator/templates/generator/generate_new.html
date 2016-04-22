@@ -7,7 +7,7 @@
    $(function() {
         $('#id_contact_info_table tbody tr').formset({
             extraClasses: ['row1', 'row2', 'row3']
-        })
+        });
     })
 </script>
 <style type="text/css">
@@ -18,11 +18,9 @@
     .delete-row {
         float:right;
         display:block;
-        margin:5px 0 0 5px;
-        text-indent:-6000px;
+        margin-left:4px;
+        padding-left:18px;
         background:url(/static/images/delete.png) no-repeat left center;
-        width:16px;
-        height:16px;
     }
     tr.row1 td { background-color: #f9f9f9; }
     tr.row2 td { background-color: #f3f3f3; }
@@ -32,17 +30,29 @@
 
 {% block content %}
 <div>
-    <form method="POST" class="post-form">{% csrf_token %}
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{ column_formset.management_form }}
+        <table id="table" border="0" cellpadding="0" cellspacing="5">
+        <thead>
+            <tr>
+                <h1>Table configuration</h1>
+            </tr>
+        </thead>
+        <tbody>
+            {{ table_form.as_table }}
+        </tbody>
+        </table>
          <table id="id_contact_info_table" border="0" cellpadding="0" cellspacing="5">
                 <thead>
                     <tr>
-                        <th scope="col">Column name</th>
+                        <th scope="col">Column</th>
                         <th scope="col">Datatype</th>
                         <th scope="col">Options</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for form in formset.forms %}
+                    {% for form in column_formset.forms %}
                     <tr id="{{ form.prefix }}-row">
                         <td style="text-align:center;">{{ form.column_name }}</td>
                         <td>{{ form.datatype }}</td>
@@ -52,7 +62,7 @@
                 </tbody>
             </table>
             <p>
-                {{ formset.management_form }}
+
                 <input type="submit" value="Submit" class="save btn btn-default"/>
             </p>
     </form>
