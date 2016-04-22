@@ -19,7 +19,7 @@ def generate_new(request):
 
 
 def display_data(request, data, **kwargs):
-    return render(request, 'example/posted-data.html', dict(data=data, **kwargs), )
+    return render(request, 'generator/posted-data.html', dict(data=data, **kwargs), )
 
 
 def formset(request, formset_class, template):
@@ -27,7 +27,7 @@ def formset(request, formset_class, template):
         formset = formset_class(request.POST or None)
         if formset.is_valid():
             data = formset.cleaned_data
-            # return display_data(request, data)
+            return display_data(request, data)
     else:
         formset = formset_class()
     return render(request, template, {'formset': formset},)
