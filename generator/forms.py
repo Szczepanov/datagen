@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import formsets
 
-from .models import Table
+from .models import Column, Table
 
 
 class TableForm(forms.ModelForm):
@@ -10,4 +10,12 @@ class TableForm(forms.ModelForm):
         fields = '__all__'
 
 
-TableFormset = formsets.formset_factory(TableForm)
+class ColumnForm(forms.ModelForm):
+    class Meta:
+        model = Column
+        fields = ('column_name', 'datatype', 'options')
+        exclude =('table')
+        # fields = '__all__'
+
+
+ColumnFormset = formsets.formset_factory(ColumnForm)

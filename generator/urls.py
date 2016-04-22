@@ -1,10 +1,11 @@
 from django.conf.urls import url
 
-from .forms import TableFormset
+from .forms import ColumnFormset
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.formset, {'formset_class': TableFormset, 'template': 'generator/generate_new.html'},
+    # url(r'^generate_new$', views.formset, {'formset_class': ColumnFormset, 'template': 'generator/generate_new.html'},
+    #     name='generate_new'),
+    url(r'^generate_new$', views.multiple_formsets, {'template': 'generator/generate_new.html'},
         name='generate_new'),
-    url(r'', views.generate_new, name='generate_new'),
 ]

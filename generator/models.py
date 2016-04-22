@@ -46,7 +46,7 @@ class Category(models.Model):
 class Datatype(models.Model):
     id = models.AutoField(primary_key=True)
     datatype = models.CharField(max_length=50)
-    category_id = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.datatype
@@ -57,9 +57,9 @@ class Datatype(models.Model):
 class Column(models.Model):
     id = models.AutoField(primary_key=True)
     column_name = models.CharField(max_length=200, default='ColumnName', unique=True)
-    datatype_id = models.ForeignKey('Datatype', on_delete=models.SET_NULL, null=True)
-    options = models.CharField(max_length=200, )
-    table_id = models.ForeignKey('Table', related_name='columns')
+    datatype = models.ForeignKey('Datatype', on_delete=models.SET_NULL, null=True)
+    options = models.CharField(max_length=200, null=True)
+    table = models.ForeignKey('Table', related_name='columns')
 
     def __str__(self):
         return self.column_name

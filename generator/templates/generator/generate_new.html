@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Basic Formset (Table layout){% endblock %}
+{% block title %}Add new{% endblock %}
 
 {% block extrahead %}
 <script type="text/javascript">
@@ -36,17 +36,17 @@
          <table id="id_contact_info_table" border="0" cellpadding="0" cellspacing="5">
                 <thead>
                     <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">column_name</th>
-                        <th scope="col">data_type</th>
+                        <th scope="col">Column name</th>
+                        <th scope="col">Datatype</th>
+                        <th scope="col">Options</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for form in formset.forms %}
                     <tr id="{{ form.prefix }}-row">
-                        <td style="text-align:center;">{{ form.name }}</td>
-                        <td>{{ form.column_name }}</td>
-                        <td>{{ form.data_type }}</td>
+                        <td style="text-align:center;">{{ form.column_name }}</td>
+                        <td>{{ form.datatype }}</td>
+                        <td>{{ form.options }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
