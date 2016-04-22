@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .forms import DataSetForm
+from .forms import TableForm
 
 
 def generate(request):
@@ -9,12 +9,12 @@ def generate(request):
 
 def generate_new(request):
     if request.method == "POST":
-        form = DataSetForm(request.POST or None)
+        form = TableForm(request.POST or None)
         if form.is_valid():
             dataset = form.save(commit=False)
             dataset.save()
     else:
-        form = DataSetForm()
+        form = TableForm()
     return render(request, 'generator/generate_new.html', {'form': form})
 
 

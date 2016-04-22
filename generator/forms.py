@@ -4,10 +4,10 @@ from django.forms import formsets
 from .models import Table
 
 
-class DataSetForm(forms.ModelForm):
+class TableForm(forms.ModelForm):
     class Meta:
         model = Table
         fields = '__all__'
 
 
-DataSetFormset = formsets.formset_factory(DataSetForm)
+TableFormset = formsets.formset_factory(TableForm)
