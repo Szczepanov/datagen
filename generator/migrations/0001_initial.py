@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='DataSet',
+            name='Table',
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('name', models.CharField(default='name1', max_length=50)),
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='DataType',
+            name='Datatype',
             fields=[
                 ('datatype', models.CharField(max_length=50, primary_key=True, serialize=False)),
                 ('category', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='generator.Category')),
@@ -55,6 +55,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='dataset',
             name='data_type',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='generator.DataType'),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='generator.Datatype'),
         ),
     ]

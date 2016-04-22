@@ -1,12 +1,12 @@
 from django import forms
 from django.forms import formsets
 
-from .models import DataSet
+from .models import Table
 
 
 class DataSetForm(forms.ModelForm):
     class Meta:
-        model = DataSet
+        model = Table
         fields = '__all__'
 
 

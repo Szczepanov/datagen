@@ -32,37 +32,47 @@ class Surname(models.Model):
         return self.name
 
 
+# Category class for holding category_name as category and ID
 class Category(models.Model):
+    id = models.AutoField(primary_key=True)
     category = models.CharField(max_length=50)
 
     def __str__(self):
         return self.category
 
 
-class DataType(models.Model):
-    datatype = models.CharField(primary_key=True, max_length=50)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
+# Class Datatype for holding dataype and pointing to category
+# Class connects category with datatype
+class Datatype(models.Model):
+    id = models.AutoField(primary_key=True)
+    datatype = models.CharField(max_length=50)
+    category_id = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.datatype
-#TODO
-#add DataSetRow and modify DataSet to have name and key to DataSetRow
-    
- # class DataSetRow(models.Model):
- #     id = models.AutoField(primary_key=True)
- #     column_name = models.CharField(max_length=200, default='ColumnName')
- #     data_type = models.ForeignKey('DataType', on_delete=models.SET_NULL, null=True)
- #     options = models.CharField(max_length=200, default='options')
 
-class DataSet(models.Model):
+
+# Class Column
+# It connects datatype with column name and options
+class Column(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50, default='name1')
-    column_name = models.CharField(max_length=200, default='ColumnName')
-    data_type = models.ForeignKey('DataType', on_delete=models.SET_NULL, null=True)
+    column_name = models.CharField(max_length=200, default='ColumnName', unique=True)
+    datatype_id = models.ForeignKey('Datatype', on_delete=models.SET_NULL, null=True)
+    options = models.CharField(max_length=200, )
+    table_id = models.ForeignKey('Table', related_name='columns')
+
+    def __str__(self):
+        return self.column_name
+
+
+# Class Table
+# It connects with Column (columnns)
+class Table(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50, default='TableName')
 
     def generate(self):
         self.save()
 
     def __str__(self):
         return self.name
-

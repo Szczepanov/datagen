@@ -1,6 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import DataSet
+from .models import Table
 
-admin.site.register(DataSet)
+admin.site.register(Table)
