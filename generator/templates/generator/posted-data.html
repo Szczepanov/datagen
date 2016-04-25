@@ -7,32 +7,41 @@
     <h1 class="title">Posted data</h1>
     <div class="entry">
         {% if multiple_formsets %}
-        <p>Received data from {{ data|length }} formsets.</p>
-        {% for formset_data in data %}
-            <strong>Form #{{ forloop.counter }}</strong><br />
-            {% for row in formset_data.items %}
-            <strong>{{ row.0 }}:</strong> {{ row.1 }}{% if not forloop.last %}<br />{% endif %}
-            {% endfor %}
-        <h2>Formset #{{ forloop.counter }}</h2>
-        {% for form_data in formset_data %}
-        <p>
-            <strong>Form #{{ forloop.counter }}</strong><br />
-            {% for row in form_data.items %}
-            <strong>{{ row.0 }}:</strong> {{ row.1 }}{% if not forloop.last %}<br />{% endif %}
-            {% endfor %}
-        </p>
-        {% endfor%}
-        {% endfor %}
+            <p>Received data from {{ data|length }} formsets.</p>
+                {% for formset_data in data %}
+                    <h2>Formset #{{ forloop.counter }}</h2>
+                    {% for form_data in formset_data %}
+                        {% if form_data.items %}
+                            <p>
+                                <strong>Form #{{ forloop.counter }}</strong><br />
+                                {% for row in form_data.items %}
+                                    <strong>{{ row.0 }}:</strong> {{ row.1 }}{% if not forloop.last %}<br />{% endif %}
+                                {% endfor %}
+                            </p>
+                        {% else %}
+                            {% for formset_data2 in data %}
+                                {% if formset_data2.items %}
+                                    <p>
+                                        <strong>Form #{{ forloop.counter }}</strong><br />
+                                        {% for row in formset_data2.items %}
+                                            <strong>{{ row.0 }}:</strong> {{ row.1 }}{% if not forloop.last %}<br />{% endif %}
+                                        {% endfor %}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor%}
+                {% endfor %}
         {% else %}
-        <p>Received data from {{ data|length }} forms.</p>
-        {% for form_data in data %}
-        <p>
-            <strong>Form #{{ forloop.counter }}</strong><br />
-            {% for row in form_data.items %}
-            <strong>{{ row.0 }}:</strong> {{ row.1 }}{% if not forloop.last %}<br />{% endif %}
+            <p>Received data from {{ data|length }} forms.</p>
+            {% for form_data in data %}
+                <p>
+                    <strong>Form #{{ forloop.counter }}</strong><br />
+                    {% for row in form_data.items %}
+                        <strong>{{ row.0 }}:</strong> {{ row.1 }}{% if not forloop.last %}<br />{% endif %}
+                    {% endfor %}
+                </p>
             {% endfor %}
-        </p>
-        {% endfor %}
         {% endif %}
     </div>
 </div>
