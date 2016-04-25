@@ -49,4 +49,4 @@ def multiple_formsets(request, template):
         table_form, column_formset = TableForm(prefix='table_form', instance=Table()), \
                                      ColumnFormset(prefix='column_formset', )
     return render(request, template,
-                  {'table_form': table_form, 'column_formset': column_formset,})
+                  {'table_form': table_form, 'column_formset': column_formset, })
