@@ -20,7 +20,9 @@ def generate_new(request):
 
 
 def display_data(request, data, **kwargs):
-    return render(request, 'generator/posted-data.html', dict(data=data, **kwargs), )
+   # print('[%s]' % ', '.join(map(str, list(data))))
+   print(", ".join(str(x) for x in data).join('[]'))
+   return render(request, 'generator/posted-data.html', dict(data=data, **kwargs), )
 
 
 def formset(request, formset_class, template):
@@ -35,16 +37,18 @@ def formset(request, formset_class, template):
 
 
 def multiple_formsets(request, template):
-    table = Table()
-    column = Column()
     if request.method == 'POST':
-        table_form, column_formset = TableForm(request.POST, prefix='=table_form', instance=table), ColumnFormset(
-            request.POST,
-            prefix='column_formset')
+        table_form, column_formset = \
+            TableForm(request.POST or None, prefix='table_form', instance=Table()), \
+            ColumnFormset(request.POST or None, prefix='column_formset')
         if table_form.is_valid() and column_formset.is_valid():
-            data = [table_form.cleaned_data, column_formset.cleaned_data]
+           # data = [table_form.cleaned_data, column_formset.cleaned_data]
+            data = []
+            data.append(table_form.cleaned_data)
+            data.append(column_formset.cleaned_data)
+            #data.append(table_form.cleaned_data)
             return display_data(request, data, multiple_formsets=True)
     else:
-        table_form, column_formset = TableForm(prefix='table_form', instance=table), ColumnFormset(
-            prefix='column_formset',)
+        table_form, column_formset = TableForm(prefix='table_form', instance=Table()), ColumnFormset(
+            prefix='column_formset', )
     return render(request, template, {'table_form': table_form, 'column_formset': column_formset})

@@ -7,7 +7,7 @@ from .models import Column, Table
 class TableForm(forms.ModelForm):
     class Meta:
         model = Table
-        fields = '__all__'
+        fields = ('name', )
 
 
 class ColumnForm(forms.ModelForm):
@@ -17,4 +17,4 @@ class ColumnForm(forms.ModelForm):
         # fields = '__all__'
 
 
-ColumnFormset = formsets.formset_factory(ColumnForm)
+ColumnFormset = formsets.formset_factory(ColumnForm, extra=2, )

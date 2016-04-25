@@ -58,7 +58,7 @@ class Column(models.Model):
     id = models.AutoField(primary_key=True)
     column_name = models.CharField(max_length=200, default='ColumnName', unique=True)
     datatype = models.ForeignKey('Datatype', on_delete=models.SET_NULL, null=True)
-    options = models.CharField(max_length=200, null=True)
+    options = models.CharField(max_length=200, null=True, blank=True)
     table = models.ForeignKey('Table', related_name='columns')
 
     def __str__(self):
@@ -69,7 +69,7 @@ class Column(models.Model):
 # It connects with Column (columnns)
 class Table(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50, default='TableName')
+    name = models.CharField(max_length=50, default='TableName', blank=False, null=False)
 
     def generate(self):
         self.save()
