@@ -45,7 +45,7 @@ class Category(models.Model):
 # Class connects category with datatype
 class Datatype(models.Model):
     id = models.AutoField(primary_key=True)
-    datatype = models.CharField(max_length=50)
+    datatype = models.CharField(max_length=50, default='Auto-increment')
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -56,7 +56,7 @@ class Datatype(models.Model):
 # It connects datatype with column name and options
 class Column(models.Model):
     id = models.AutoField(primary_key=True)
-    column_name = models.CharField(max_length=200, default='ColumnName', unique=True)
+    column_name = models.CharField(max_length=200, default='ID', unique=True)
     datatype = models.ForeignKey('Datatype', on_delete=models.SET_NULL, null=True)
     options = models.CharField(max_length=200, null=True, blank=True)
     table = models.ForeignKey('Table', related_name='columns')

@@ -9,6 +9,10 @@
         {% if multiple_formsets %}
         <p>Received data from {{ data|length }} formsets.</p>
         {% for formset_data in data %}
+            <strong>Form #{{ forloop.counter }}</strong><br />
+            {% for row in formset_data.items %}
+            <strong>{{ row.0 }}:</strong> {{ row.1 }}{% if not forloop.last %}<br />{% endif %}
+            {% endfor %}
         <h2>Formset #{{ forloop.counter }}</h2>
         {% for form_data in formset_data %}
         <p>
