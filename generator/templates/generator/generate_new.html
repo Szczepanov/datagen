@@ -53,10 +53,12 @@
                 </thead>
                 <tbody>
                     {% for form in column_formset.forms %}
+                    {{ form.as_p }}
                     <tr id="{{ form.prefix }}-row">
                         <td style="text-align:center;">{{ form.column_name }}</td>
                         <td>{{ form.datatype }}</td>
                         <td>{{ form.options }}</td>
+                        <td>{{ form.table }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -65,6 +67,7 @@
 
                 <input type="submit" value="Submit" class="save btn btn-default"/>
             </p>
+
     </form>
 </div>
         <!--<button type="submit" class="save btn btn-default">Save</button>-->

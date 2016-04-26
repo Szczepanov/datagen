@@ -1,7 +1,8 @@
+from django.forms import formsets
 from django.shortcuts import render
 
-from generator.models import Table
-from .forms import ColumnForm, TableForm, ColumnFormset
+from generator.models import Table, Column
+from .forms import ColumnForm, TableForm, BaseColumnFormset, ColumnFormset
 
 
 def generate(request):
@@ -37,13 +38,32 @@ def formset(request, formset_class, template):
 
 def multiple_formsets(request, template):
     if request.method == 'POST':
+        # print('check A')
+        # for key in request.POST:
+        #     print(key)
+        #     value = request.POST[key]
+        #     print(value)
+        # print('check C')
         table_form, column_formset = \
             TableForm(request.POST or None, prefix='table_form', instance=Table()), \
             ColumnFormset(request.POST or None, prefix='column_formset')
         if table_form.is_valid() and column_formset.is_valid():
+            table_form.save()
+            for form in column_formset:
+                if form:
+                    print(form.as_table())
+            # for form in column_formset.cleaned_data:
+            #     print(form.as_table())
+                # column_name = form.cleaned_data.get('column_name')
+                # datatype = form.cleaned_data.get('datatype')
+                # options = form.cleaned_data.get('options')
+                # if column_name and datatype:
+                #     new_columns.append(column_name, datatype, options)
+            print('check B')
             data = []
             data.append(table_form.cleaned_data)
             data.append(column_formset.cleaned_data)
+            print(data)
             return display_data(request, data, multiple_formsets=True)
     else:
         table_form, column_formset = TableForm(prefix='table_form', instance=Table()), \

@@ -55,7 +55,6 @@ html {
 body {
   height: 100%;
   margin: 0px;
-  background: #dedede url(../images/topBackground.jpg) repeat-x;
   text-align: center; }
 
 body, table, td, div, span, div, p {
@@ -128,7 +127,6 @@ ul {
   margin-left: 0px; }
 
 #gdReportBug {
-  background: transparent url(../images/bug.png) center right no-repeat;
   padding: 5px 22px 5px 0px; }
 
 .gdFields .gdField {
@@ -200,7 +198,6 @@ ul {
       background-color: #cccccc; }
 
 header {
-  background-image: url(../images/siteHeader.jpg);
   background-repeat: no-repeat;
   position: relative;
   width: 980px;
@@ -344,7 +341,7 @@ footer {
     color: #777777;
     padding: 1px 20px 0 1px; }
     #gdMainTab1Content h2 span.gdSectionHelp {
-      background: transparent url("../images/helpSmall.png") right center no-repeat;
+
       cursor: pointer;
       width: 14px;
       height: 14px;
@@ -381,7 +378,6 @@ footer {
   width: 725px; }
   .gdFields .gdError {
     margin-left: 6px;
-    background: transparent url(../images/error.gif) left center no-repeat;
     float: left;
     width: 315px;
     padding-left: 24px;
@@ -501,7 +497,7 @@ li.gdColDelete {
 
 #gdHelpPopup {
   padding-left: 54px;
-  background: transparent url(../images/info.png) 10px 10px no-repeat; }
+  }
   #gdHelpPopup p {
     margin: 5px 0px 12px; }
   #gdHelpPopup h4 {
@@ -686,11 +682,11 @@ a.gdDisabledLink {
   width: 100%; }
 
 #gdUserAccount {
-  background: transparent url(../images/user.png) top left no-repeat;
+
   padding-left: 20px; }
 
 .gdIconWarning {
-  background: transparent url(../images/warning.png) top left no-repeat;
+
   width: 48px;
   height: 48px; }
 
