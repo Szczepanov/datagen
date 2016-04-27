@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import formsets
 
 from .models import Column, Table
 
@@ -7,18 +6,12 @@ from .models import Column, Table
 class TableForm(forms.ModelForm):
     class Meta:
         model = Table
-        fields = ('name',)
+        # fields = ('name',)
+        fields = '__all__'
 
 
 class ColumnForm(forms.ModelForm):
     class Meta:
         model = Column
-        fields = ('column_name', 'datatype', 'options')
-        # fields = '__all__'
-
-
-class OutputForm(forms.Form):
-    output = forms.CharField(widget=forms.Textarea, label='SQL output')
-    fields = ('output', )
-
-ColumnFormset = formsets.formset_factory(ColumnForm, extra=2, )
+        fields = ('column_name', 'datatype',)
+        exclude = ('table',)

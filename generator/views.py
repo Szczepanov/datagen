@@ -1,7 +1,9 @@
+from django.forms import formsets, BaseFormSet
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from generator.models import Table
-from .forms import ColumnForm, TableForm, ColumnFormset
+from .forms import ColumnForm, TableForm
 
 
 def generate(request):
@@ -36,15 +38,28 @@ def formset(request, formset_class, template):
 
 
 def multiple_formsets(request, template):
+    class RequiredFormSet(BaseFormSet):
+        def __init__(self, *args, **kwargs):
+            super(RequiredFormSet, self).__init__(*args, **kwargs)
+            for form in self.forms:
+                form.empty_permitted = False
+
+    ColumnFormset = formsets.formset_factory(ColumnForm, max_num=10, formset=RequiredFormSet)
     if request.method == 'POST':
-        table_form, column_formset = \
-            TableForm(request.POST or None, prefix='table_form', instance=Table()), \
-            ColumnFormset(request.POST or None, prefix='column_formset')
-        if table_form.is_valid() and column_formset.is_valid():
-            data = []
-            data.append(table_form.cleaned_data)
-            data.append(column_formset.cleaned_data)
-            return display_data(request, data, multiple_formsets=True)
+        table_form = TableForm(request.POST, prefix='table_form', instance=Table())
+        if table_form.is_valid():
+            table = table_form.save(commit=True)
+            column_formset = ColumnFormset(request.POST, request.FILES, prefix='column_formset')
+            if column_formset.is_valid():
+                for form in column_formset.forms:
+                    column = form.save(commit=False)
+                    column.table = table
+                    column.save()
+            return HttpResponseRedirect('thanks')
+            # data = []
+            # data.append(table_form.cleaned_data)
+            # data.append(column_formset.cleaned_data)
+            # return display_data(request, data, multiple_formsets=True)
     else:
         table_form, column_formset = TableForm(prefix='table_form', instance=Table()), \
                                      ColumnFormset(prefix='column_formset', )
