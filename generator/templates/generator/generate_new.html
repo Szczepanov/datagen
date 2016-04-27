@@ -106,10 +106,23 @@ $(document).ready(function() {
         </div>
         <h2>Columns</h2>
         {{ column_formset.management_form }}
+        <div>
+                <tr>
+                <td>Column name</td>
+                <td>Datatype</td>
+                </tr>
+            </div>
         {% for form in column_formset.forms %}
         <div class="item">
-            {{ form.as_p }}
-            <p style=""><a class="delete" href="#">Delete</a></p>
+
+            <div>
+            <tr>
+            <td>{{ form.column_name }}</td>
+            <td>{{ form.datatype }}</td>
+            <td><a class="delete" href="#">Delete</a></td>
+                </tr>
+                </div>
+
         </div>
         {% endfor %}
         <p><a id="add" href="#">Add another column</a></p>
