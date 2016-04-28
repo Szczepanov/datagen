@@ -59,12 +59,12 @@ def multiple_formsets(request, template):
     return render(request, template,
                   {'table_form': table_form, 'column_formset': column_formset,})
 
-
+#TODO modify method (add columns parameter)
 def generate_sql(request, table):
     columns = (1, 2, 3, 4, 5)
     return render(request, 'generator/generate_sql.html', dict(generated_sql=build_insert(table, columns)))
 
-
+#TODO modify method depending on generate_sql modification
 def build_insert(table, columns):
     insertSQL = ''
     for counter, column in enumerate(columns):
