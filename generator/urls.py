@@ -1,7 +1,10 @@
 from django.conf.urls import url
+from django.views.generic import TemplateView
 
 from . import views
 urlpatterns = [
-    url(r'', views.multiple_formsets, {'template': 'generator/add_table.html'},
-        name='generate_new'),
+    url(r'^add_table/$', views.multiple_formsets, {'template': 'generator/add_table.html'},
+        name='add_table'),
+    url(r'^generate_sql$', TemplateView.as_view(template_name='generator/generate_sql.html'), name='generate_sql'),
+    url(r'^$', TemplateView.as_view(template_name='generator/index.html')),
 ]

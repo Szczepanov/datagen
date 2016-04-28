@@ -39,3 +39,7 @@ h2 {
 a.delete:hover {
   color: red;
 }
+
+#generated_sql{
+    resize: none;
+}

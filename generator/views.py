@@ -38,19 +38,39 @@ def multiple_formsets(request, template):
         table_form = TableForm(request.POST, prefix='table_form', instance=Table())
         if table_form.is_valid():
             table = table_form.save(commit=True)
+            print(table)
             column_formset = ColumnFormset(request.POST, request.FILES, prefix='column_formset')
             if column_formset.is_valid():
                 for form in column_formset.forms:
                     column = form.save(commit=False)
                     column.table = table
                     column.save()
-            return HttpResponseRedirect('thanks')
+                    print(column)
+            # return HttpResponseRedirect('thanks')
             # data = []
             # data.append(table_form.cleaned_data)
             # data.append(column_formset.cleaned_data)
             # return display_data(request, data, multiple_formsets=True)
+
+            return generate_sql(request, table)
     else:
         table_form, column_formset = TableForm(prefix='table_form', instance=Table()), \
                                      ColumnFormset(prefix='column_formset', )
     return render(request, template,
-                  {'table_form': table_form, 'column_formset': column_formset, })
+                  {'table_form': table_form, 'column_formset': column_formset,})
+
+
+def generate_sql(request, table):
+    columns = (1, 2, 3, 4, 5)
+    return render(request, 'generator/generate_sql.html', dict(generated_sql=build_insert(table, columns)))
+
+
+def build_insert(table, columns):
+    insertSQL = ''
+    for counter, column in enumerate(columns):
+        insertSQL += 'Insert into ' + table.name + ' values (' + str(
+            counter + 100) + ',\'Name\',\'Surname\');\n'
+        # for index in range(0,counter):
+        #     insertSQL =+ '' | column. | ','
+        # insertSQL =+ ');'
+    return insertSQL
