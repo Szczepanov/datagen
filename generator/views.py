@@ -7,7 +7,7 @@ from .forms import ColumnForm, TableForm
 
 
 def generate(request):
-    return render(request, 'generator/generate_new.html', {})
+    return render(request, 'generator/add_table.html', {})
 
 
 def generate_new(request):
@@ -18,23 +18,12 @@ def generate_new(request):
             dataset.save()
     else:
         form = ColumnForm()
-    return render(request, 'generator/generate_new.html', {'form': form})
+    return render(request, 'generator/add_table.html', {'form': form})
 
 
 def display_data(request, data, **kwargs):
     # print('[%s]' % ', '.join(map(str, list(data))))
     return render(request, 'generator/posted-data.html', dict(data=data, **kwargs), )
-
-
-def formset(request, formset_class, template):
-    if request.method == 'POST':
-        formset = formset_class(request.POST or None)
-        if formset.is_valid():
-            data = formset.cleaned_data
-            return display_data(request, data)
-    else:
-        formset = formset_class()
-    return render(request, template, {'formset': formset}, )
 
 
 def multiple_formsets(request, template):
