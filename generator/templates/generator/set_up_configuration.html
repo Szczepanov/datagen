@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Add new{% endblock %}
+
+{% block content %}
+<div>
+    <div>
+        <h2>Choose table:</h2>
+        {% for table in tables %}
+            <div>
+                {{ table.name }}
+                <ul>
+                    {% for column in columns %}
+                        <li>
+                            {{ column.column_name }} {{ column.datatype }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

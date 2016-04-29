@@ -63,7 +63,7 @@ class Column(models.Model):
     column_name = models.CharField(max_length=200)
     datatype = models.ForeignKey(Datatype)
     # options = models.CharField(max_length=200, null=True, blank=True)
-    table = models.ForeignKey(Table)
+    table = models.ForeignKey(Table, related_name='columns_connected')
 
     def __str__(self):
         return self.column_name

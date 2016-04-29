@@ -2,7 +2,7 @@ from django.forms import formsets, BaseFormSet
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from generator.models import Table
+from generator.models import Table, Column, Name, Surname
 from .forms import ColumnForm, TableForm
 
 
@@ -38,14 +38,14 @@ def multiple_formsets(request, template):
         table_form = TableForm(request.POST, prefix='table_form', instance=Table())
         if table_form.is_valid():
             table = table_form.save(commit=True)
-            print(table)
+            # print(table)
             column_formset = ColumnFormset(request.POST, request.FILES, prefix='column_formset')
             if column_formset.is_valid():
                 for form in column_formset.forms:
                     column = form.save(commit=False)
                     column.table = table
                     column.save()
-                    print(column)
+                    # print(column)
             # return HttpResponseRedirect('thanks')
             # data = []
             # data.append(table_form.cleaned_data)
@@ -57,20 +57,20 @@ def multiple_formsets(request, template):
         table_form, column_formset = TableForm(prefix='table_form', instance=Table()), \
                                      ColumnFormset(prefix='column_formset', )
     return render(request, template,
-                  {'table_form': table_form, 'column_formset': column_formset,})
+                  {'table_form': table_form, 'column_formset': column_formset})
 
-#TODO modify method (add columns parameter)
+
 def generate_sql(request, table):
-    columns = (1, 2, 3, 4, 5)
-    return render(request, 'generator/generate_sql.html', dict(generated_sql=build_insert(table, columns)))
+    return render(request, 'generator/generate_sql.html', dict(generated_sql=build_insert(table)))
 
-#TODO modify method depending on generate_sql modification
-def build_insert(table, columns):
+
+def build_insert(table):
+    rows_number = 5
+    columns = Column.objects.filter(table=table)
+    names = Name.objects.order_by('?')[:rows_number]
+    surnames = Surname.objects.order_by('?')[:rows_number]
     insertSQL = ''
     for counter, column in enumerate(columns):
         insertSQL += 'Insert into ' + table.name + ' values (' + str(
-            counter + 100) + ',\'Name\',\'Surname\');\n'
-        # for index in range(0,counter):
-        #     insertSQL =+ '' | column. | ','
-        # insertSQL =+ ');'
+            counter + 100) + ',\'' + names[counter].name + '\',\'' + surnames[counter].surname + '\');\n'
     return insertSQL
