@@ -1,5 +1,4 @@
 from django.forms import formsets, BaseFormSet
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from generator.models import Table, Column, Name, Surname
@@ -74,3 +73,9 @@ def build_insert(table):
         insertSQL += 'Insert into ' + table.name + ' values (' + str(
             counter + 100) + ',\'' + names[counter].name + '\',\'' + surnames[counter].surname + '\');\n'
     return insertSQL
+
+
+def set_up_configuration(request):
+    return render(request, 'generator/set_up_configuration.html', dict(tables=Table.objects.all(),
+                  columns=Column.objects.all()))
+
