@@ -1,5 +1,6 @@
-from django.forms import formsets, BaseFormSet
+from django.forms import formsets, BaseFormSet, models
 from django.shortcuts import render, render_to_response
+from django.db import connection
 
 from generator.models import Table, Column, Name, Surname, Datatype
 from .forms import ColumnForm, TableForm
@@ -69,6 +70,13 @@ def build_insert(table, rows_number=5):
     # surnames = Surname.objects.order_by('?')[:rows_number]
     insertSQL = ''
     columns_names = ', '.join(str(column.column_name) for column in list(columns.all()))
+    cursor = connection.cursor()
+    # tables = connection.introspection.table_names()
+    # print(tables)
+    # seen_models = connection.introspection.installed_models(tables)
+    # print(seen_models)
+    cursor.execute('SELECT * FROM generator_name')
+    print(cursor.fetchall())
     for col in list(columns.all()):
         pass
         # print(str(Datatype.objects.filter(datatype=col.datatype)))
