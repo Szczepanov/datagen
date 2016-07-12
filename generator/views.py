@@ -1,10 +1,9 @@
 import random
 
-from django.forms import formsets, BaseFormSet, models
-from django.shortcuts import render, render_to_response
-from django.db import connection
+from django.forms import formsets, BaseFormSet
+from django.shortcuts import render
 
-from generator.models import Table, Column, Name, Surname, Datatype
+from generator.models import Table, Column, Name, Surname
 from .forms import ColumnForm, TableForm
 
 
@@ -54,7 +53,7 @@ def multiple_formsets(request, template):
             # data.append(column_formset.cleaned_data)
             # return display_data(request, data, multiple_formsets=True)
 
-            return generate_sql(request, table)
+            return generate_sql(request=request, table=table, row_number=request.POST.get('row_number'))
     else:
         table_form, column_formset = TableForm(prefix='table_form', instance=Table()), \
                                      ColumnFormset(prefix='column_formset', )
@@ -62,14 +61,12 @@ def multiple_formsets(request, template):
                   {'table_form': table_form, 'column_formset': column_formset})
 
 
-def generate_sql(request, table):
-    return render(request, 'generator/generate_sql.html', dict(generated_sql=build_insert(table)))
+def generate_sql(request, table, row_number):
+    return render(request, 'generator/generate_sql.html', dict(generated_sql=build_insert(table,row_number)))
 
 
 def build_insert(table, rows_number=5):
     columns = Column.objects.filter(table=table)
-    # names = Name.objects.order_by('?')[:rows_number]
-    # surnames = Surname.objects.order_by('?')[:rows_number]
     insertSQL = ''
     columns_names = ', '.join(str(column.column_name) for column in list(columns.all()))
     # cursor = connection.cursor()
@@ -80,7 +77,7 @@ def build_insert(table, rows_number=5):
     # cursor.execute('SELECT * FROM generator_name')
     # print(cursor.fetchall())
     auto_increment = 0
-    for counter in range(0, rows_number):
+    for counter in range(0, int(rows_number)):
         values = []
         SEX = random.sample(['M', 'F'], 1)
         for col in list(columns.all()):

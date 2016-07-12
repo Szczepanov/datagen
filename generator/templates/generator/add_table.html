@@ -103,6 +103,8 @@ $(document).ready(function() {
         {% csrf_token %}
         <div class="section">
             {{ table_form.as_p }}
+            <label for="row_number">Row number: </label>
+            <input id="row_number" type=text" name="row_number" value="{{ row_number }}"/>
         </div>
         <h2>Columns</h2>
         {{ column_formset.management_form }}
