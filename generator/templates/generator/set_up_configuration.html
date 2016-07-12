@@ -9,9 +9,14 @@
         <table border="1">
         {% for table in tables %}
                         <tr>
-                <td><b>Table name: </b><a href="#2">{{ table.name }}</a></td>
+
+                <td><b>Tablename: </b><a href="{% url 'generate_sql' %}">{{ table.name }}</a></td>
                             </tr>
-    <tr><td><b>Column</b></td><td><b>Datatype</b></td><td><b>Options</b></td></tr>
+                <tr>
+                    <td><b>Column</b></td>
+                    <td><b>Datatype</b></td>
+                    <td><b>Options</b></td>
+                </tr>
                     {% for column in columns %}
                     {% if column.table == table %}
                      <tr><td><div>{{ column.column_name }}</div></td>

@@ -1,7 +1,7 @@
 from django.forms import formsets, BaseFormSet
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 
-from generator.models import Table, Column, Name, Surname
+from generator.models import Table, Column, Name, Surname, Datatype
 from .forms import ColumnForm, TableForm
 
 
@@ -63,19 +63,21 @@ def generate_sql(request, table):
     return render(request, 'generator/generate_sql.html', dict(generated_sql=build_insert(table)))
 
 
-def build_insert(table):
-    rows_number = 5
+def build_insert(table, rows_number=5):
     columns = Column.objects.filter(table=table)
-    names = Name.objects.order_by('?')[:rows_number]
-    surnames = Surname.objects.order_by('?')[:rows_number]
+    # names = Name.objects.order_by('?')[:rows_number]
+    # surnames = Surname.objects.order_by('?')[:rows_number]
     insertSQL = ''
-    for counter, column in enumerate(columns):
-        insertSQL += 'Insert into ' + table.name + ' values (' + str(
-            counter + 100) + ',\'' + names[counter].name + '\',\'' + surnames[counter].surname + '\');\n'
+    columns_names = ', '.join(str(column.column_name) for column in list(columns.all()))
+    for col in list(columns.all()):
+        pass
+        # print(str(Datatype.objects.filter(datatype=col.datatype)))
+    # datatypes = list(Datatype.objects.filter(id=int(column.datatype)) for column in list(columns.all()))
+    for counter in range(0, rows_number):
+        insertSQL += 'Insert into ' + table.name + ' (' + columns_names + ') values ();\n'
     return insertSQL
 
 
 def set_up_configuration(request):
-    return render(request, 'generator/set_up_configuration.html', dict(tables=Table.objects.all(),
-                  columns=Column.objects.all()))
-
+    return render(request, 'generator/set_up_configuration.html',
+                  dict(tables=Table.objects.all(), columns=Column.objects.all()))
