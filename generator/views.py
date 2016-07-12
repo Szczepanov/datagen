@@ -1,3 +1,5 @@
+import random
+
 from django.forms import formsets, BaseFormSet, models
 from django.shortcuts import render, render_to_response
 from django.db import connection
@@ -70,19 +72,28 @@ def build_insert(table, rows_number=5):
     # surnames = Surname.objects.order_by('?')[:rows_number]
     insertSQL = ''
     columns_names = ', '.join(str(column.column_name) for column in list(columns.all()))
-    cursor = connection.cursor()
+    # cursor = connection.cursor()
     # tables = connection.introspection.table_names()
     # print(tables)
     # seen_models = connection.introspection.installed_models(tables)
     # print(seen_models)
-    cursor.execute('SELECT * FROM generator_name')
-    print(cursor.fetchall())
-    for col in list(columns.all()):
-        pass
-        # print(str(Datatype.objects.filter(datatype=col.datatype)))
-    # datatypes = list(Datatype.objects.filter(id=int(column.datatype)) for column in list(columns.all()))
+    # cursor.execute('SELECT * FROM generator_name')
+    # print(cursor.fetchall())
+    auto_increment = 0
     for counter in range(0, rows_number):
-        insertSQL += 'Insert into ' + table.name + ' (' + columns_names + ') values ();\n'
+        values = []
+        SEX = random.sample(['M', 'F'], 1)
+        for col in list(columns.all()):
+            if str(col.datatype) == 'Name':
+                values.append('\'' + str((Name.objects.filter(sex=SEX[0]).order_by('?')[:1])[0].name) + '\'')
+            elif str(col.datatype) == 'Surname':
+                values.append('\'' + str((Surname.objects.filter(sex=SEX[0]).order_by('?')[:1])[0].surname) + '\'')
+            elif str(col.datatype) == 'Auto-increment':
+                values.append(str(auto_increment))
+                auto_increment += 1
+            elif str(col.datatype) == 'Numeric':
+                values.append(str(random.randint(18, 99)))
+        insertSQL += 'Insert into ' + table.name + ' (' + columns_names + ') values (' + ', '.join(values) + ');\n'
     return insertSQL
 
 
