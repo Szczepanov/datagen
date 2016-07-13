@@ -6,27 +6,31 @@
 <div>
     <div>
         <h2>Choose table:</h2>
-        <table border="1">
         {% for table in tables %}
-                        <tr>
-
-                <td><b>Tablename: </b><a href="{% url 'generate_sql' %}">{{ table.name }}</a></td>
-                            </tr>
+        <table border="1">
+            <form method="POST" id="choose">
+                {% csrf_token %}
+                <tr>
+                    <!--<td><b>Tablename: </b><a href="{% url 'generate_sql' %}" onClick="form.submit();")>{{ table.name }}</a></td>-->
+                    <td><b>Tablename: </b><a href="javascript:{}" onClick="document.getElementById('choose').submit(); return false;">{{ table.name }}</a></td>
+                </tr>
                 <tr>
                     <td><b>Column</b></td>
                     <td><b>Datatype</b></td>
                     <td><b>Options</b></td>
                 </tr>
-                    {% for column in columns %}
+                {% for column in columns %}
                     {% if column.table == table %}
-                     <tr><td><div>{{ column.column_name }}</div></td>
-                        <td><div>{{ column.datatype }}</div></td>
-                     <td>#TODO</td></tr>
+                         <tr>
+                             <td><div>{{ column.column_name }}</div></td>
+                             <td><div>{{ column.datatype }}</div></td>
+                             <td>#TODO</td>
+                         </tr>
                     {% endif %}
-                    {% endfor %}
-                </tr>
+                {% endfor %}
+            </form>
+        </table>
         {% endfor %}
-       </table>
     </div>
 </div>
 {% endblock %}
