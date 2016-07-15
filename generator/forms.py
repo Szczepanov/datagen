@@ -13,7 +13,7 @@ class TableForm(forms.ModelForm):
 class ColumnForm(forms.ModelForm):
     class Meta:
         model = Column
-        fields = ('column_name', 'datatype',)
+        fields = ('column_name', 'datatype', 'options')
         exclude = ('table',)
 
 
