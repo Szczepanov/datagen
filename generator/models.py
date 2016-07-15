@@ -70,7 +70,7 @@ class Table(models.Model):
 class Column(models.Model):
     column_name = models.CharField(max_length=200)
     datatype = models.ForeignKey(Datatype)
-    options = models.CharField(max_length=200, null=True, blank=True)
+    options = models.CharField(max_length=200, null=True, blank=True, default=None)
     table = models.ForeignKey(Table, related_name='columns_connected')
 
     def __str__(self):
