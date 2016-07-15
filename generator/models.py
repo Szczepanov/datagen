@@ -48,10 +48,18 @@ class Datatype(models.Model):
         return self.datatype
 
 
+class Project(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 # Class Table
 # It connects with Column (columnns)
 class Table(models.Model):
     name = models.CharField(max_length=50)
+    project = models.ForeignKey(Project, related_name='tables_within_project', blank=True, null=True, default=None)
 
     def __str__(self):
         return self.name
@@ -62,7 +70,7 @@ class Table(models.Model):
 class Column(models.Model):
     column_name = models.CharField(max_length=200)
     datatype = models.ForeignKey(Datatype)
-    # options = models.CharField(max_length=200, null=True, blank=True)
+    options = models.CharField(max_length=200, null=True, blank=True)
     table = models.ForeignKey(Table, related_name='columns_connected')
 
     def __str__(self):

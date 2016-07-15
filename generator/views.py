@@ -3,8 +3,8 @@ import random
 from django.forms import formsets, BaseFormSet
 from django.shortcuts import render
 
-from generator.models import Table, Column, Name, Surname
-from .forms import ColumnForm, TableForm
+from generator.models import Table, Column, Name, Surname, Project
+from .forms import ColumnForm, TableForm, ProjectForm
 
 
 def generate(request):
@@ -24,7 +24,7 @@ def generate_new(request):
 
 def display_data(request, data, **kwargs):
     # print('[%s]' % ', '.join(map(str, list(data))))
-    return render(request, 'generator/posted-data.html', dict(data=data, **kwargs), )
+    return render(request, 'generator/posted_data.html', dict(data=data, **kwargs), )
 
 
 def multiple_formsets(request, template):
@@ -62,7 +62,7 @@ def multiple_formsets(request, template):
 
 
 def generate_sql(request, table, row_number):
-    return render(request, 'generator/generate_sql.html', dict(generated_sql=build_insert(table,row_number)))
+    return render(request, 'generator/generate_sql.html', dict(generated_sql=build_insert(table, row_number)))
 
 
 def build_insert(table, rows_number=5):
@@ -97,3 +97,14 @@ def build_insert(table, rows_number=5):
 def set_up_configuration(request):
     return render(request, 'generator/set_up_configuration.html',
                   dict(tables=Table.objects.all(), columns=Column.objects.all()))
+
+
+def add_project(request, template):
+    if request.method == 'POST':
+        project_form = ProjectForm(request.POST, prefix='project_form', instance=Project())
+        if project_form.is_valid():
+            project_form.save(commit=True)
+            return render(request, 'generator/add_table.html')
+    else:
+        project_form = ProjectForm(prefix='project_form', instance=Project())
+    return render(request, template, {'project_form': project_form})
