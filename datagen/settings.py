@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'generator',
+    'aldjemy',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -127,3 +128,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'public', 'static')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+SPAGHETTI_SAUCE = {
+  'apps':['generator','polls'],
+  'show_fields':True,
+  'exclude':{'auth':['user']}
+}
