@@ -170,10 +170,10 @@ class Plate(View):
         nodes = []
         edges = []
         for model in models:
-            if (model.model_class() is None):
+            if model.model_class() is None:
                 continue
             model.is_proxy = model.model_class()._meta.proxy
-            if (model.is_proxy and not graph_settings.get('show_proxy', False)):
+            if model.is_proxy and not graph_settings.get('show_proxy', False):
                 continue
 
             model.doc = model.model_class().__doc__

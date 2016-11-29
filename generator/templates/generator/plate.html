@@ -1,41 +1,190 @@
+{% extends 'base.html' %}
+{% block content %}
 {% block extra_scripts %}
 <script src="//cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 <div id="visualization"></div>
-
 <script>
-  var nodes = new vis.DataSet(
-      {{ meatballs|safe }}
-  );
+        var nodes = new vis.DataSet(
+              {{ meatballs|safe }}
+            );
 
-  var edges = new vis.DataSet(
-      {{ spaghetti|safe }}
-  );
+            var edges = new vis.DataSet(
+              {{ spaghetti|safe }}
+            );
 
-  var data = {
-    nodes: nodes,
-    edges: edges
-  };
-
-  var container = document.getElementById('visualization');
-  var options = {
-    "edges": {
-      "smooth": {
-        "type": "cubicBezier",
-        "roundness": 0.55
-      }
-    },
-
-    "layout": {
-        hierarchical: {
-            sortMethod: 'hubsize',
-            direction:'LR'
+            var container = document.getElementById('visualization');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var options = {
+                "edges": {
+                  "smooth": {
+                    "type": "cubicBezier",
+                    "forceDirection": "none",
+                    "roundness": 0
+                  }
+                },
+                "physics": {
+                    "enabled": false
+                },
+                "layout": {
+                randomSeed : 2
+                },
+                <!--"layout": {-->
+                    <!--hierarchical: {-->
+                        <!--sortMethod: 'hubsize',-->
+                        <!--direction:'LR'-->
+                    <!--}-->
+                <!--},-->
+            };
+        // convenience method to stringify a JSON object
+        function toJSON(obj) {
+            return JSON.stringify(obj, null, 4);
         }
-    },
 
-  };
+        function addNode() {
+            try {
+                nodes.add({
+                    id: document.getElementById('node-id').value,
+                    label: document.getElementById('node-label').value,
+                    shape: 'box',
+                    title: ''
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
 
-  var timeline = new vis.Network(container, data, options);
+        function updateNode() {
+            try {
+                nodes.update({
+                    id: document.getElementById('node-id').value,
+                    label: document.getElementById('node-label').value
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+        function removeNode() {
+            try {
+                nodes.remove({id: document.getElementById('node-id').value});
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
 
-</script>
+        function addEdge() {
+            try {
+                edges.add({
+                    id: document.getElementById('edge-id').value,
+                    from: document.getElementById('edge-from').value,
+                    to: document.getElementById('edge-to').value
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+        function updateEdge() {
+            try {
+                edges.update({
+                    id: document.getElementById('edge-id').value,
+                    from: document.getElementById('edge-from').value,
+                    to: document.getElementById('edge-to').value
+                });
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+        function removeEdge() {
+            try {
+                edges.remove({id: document.getElementById('edge-id').value});
+            }
+            catch (err) {
+                alert(err);
+            }
+        }
+
+            var visualization = new vis.Network(container, data, options);
+
+    </script>
+<table>
+    <tbody><tr>
+        <td>
+            <h2>Node</h2>
+            <table>
+                <tbody><tr>
+                    <td></td>
+                    <td><label for="node-id">Id</label></td>
+                    <td><input id="node-id" type="text" value="6"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><label for="node-label">Label</label></td>
+                    <td><input id="node-label" type="text" value="Node 6"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Action</td>
+                    <td>
+                        <button id="node-add" onclick="addNode();">Add</button>
+                        <button id="node-update" onclick="updateNode();">Update</button>
+                        <button id="node-remove" onclick="removeNode();">Remove</button>
+                    </td>
+                </tr>
+            </tbody></table>
+        </td>
+        <td>
+            <h2>Edge</h2>
+            <table>
+                <tbody><tr>
+                    <td></td>
+                    <td><label for="edge-id">Id</label></td>
+                    <td><input id="edge-id" type="text" value="5"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><label for="edge-from">From</label></td>
+                    <td><input id="edge-from" type="text" value="3"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><label for="edge-to">To</label></td>
+                    <td><input id="edge-to" type="text" value="4"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>Action</td>
+                    <td>
+                        <button id="edge-add" onclick="addEdge();">Add</button>
+                        <button id="edge-update" onclick="updateEdge();">Update</button>
+                        <button id="edge-remove" onclick="removeEdge();">Remove</button>
+                    </td>
+                </tr>
+            </tbody></table>
+        </td>
+    </tr>
+
+</tbody></table>
+
+<h1>View</h1>
+<table class="view">
+    <colgroup>
+        <col width="25%">
+        <col width="25%">
+        <col width="50%">
+    </colgroup>
+    <tbody><tr>
+                <td>
+            <h2>visualization</h2>
+        </td>
+    </tr>
+</tbody></table>
+{% endblock %}
