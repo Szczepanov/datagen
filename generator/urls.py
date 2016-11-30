@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^create_model/$', TemplateView.as_view(template_name='generator/create_model.html'), name='create_model'),
     url(r'^setup/$', views.set_up_configuration, name='set_up_configuration'),
     url(r'^plate/$', Plate.as_view(), name='plate'),
+    url(r'^example/$', TemplateView.as_view(template_name='generator/example.html')),
     url(r'^$', TemplateView.as_view(template_name='generator/index.html')),
 ]
